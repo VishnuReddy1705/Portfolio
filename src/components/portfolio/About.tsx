@@ -5,7 +5,7 @@ import { SectionHeading } from "./SectionHeading";
 const CHAPTERS = [
   {
     icon: GraduationCap,
-    year: "2023",
+    year: "2024",
     title: "The Beginning",
     text: "Joined Karunya Institute of Technology and Sciences to pursue B.Tech in Computer Science Engineering. First lines of Java. First bugs. First obsession.",
   },

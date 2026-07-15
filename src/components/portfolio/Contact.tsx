@@ -7,19 +7,19 @@ const CARDS = [
     icon: Github,
     label: "GitHub",
     value: "Explore the code",
-    href: "https://github.com",
+    href: "https://github.com/VishnuReddy1705",
   },
   {
     icon: Linkedin,
     label: "LinkedIn",
     value: "Let's connect",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/in/vishnu-reddy-17-",
   },
   {
     icon: Mail,
     label: "Email",
     value: "Say hello",
-    href: "mailto:omvishnu@example.com",
+    href: "mailto:omvishnu1705@gmail.com",
   },
   {
     icon: FileDown,
@@ -71,7 +71,7 @@ export function Contact() {
         </div>
 
         <motion.a
-          href="mailto:omvishnu@example.com"
+          href="mailto:omvishnu1705@gmail.com"
           initial={{ opacity: 0, scale: 0.9 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}

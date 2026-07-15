@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "motion/react";
 import { ArrowDown } from "lucide-react";
-import portrait from "@/assets/portrait.jpg";
+import portrait from "@/assets/portrait.png";
 
 const ROLES = [
   "Full Stack Developer",
@@ -118,7 +118,7 @@ export function Hero() {
           initial={{ opacity: 0, scale: 0.85, filter: "blur(20px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-64 md:w-80"
+          className="relative mx-auto w-72 md:w-96"
         >
           <div
             className="animate-spin-slow absolute -inset-6 rounded-full opacity-70"
@@ -144,7 +144,7 @@ export function Hero() {
               alt="Om Vishnu Vardhan Reddy P — futuristic developer portrait"
               width={832}
               height={1024}
-              className="aspect-square w-full object-cover object-top"
+              className="aspect-square w-full object-cover object-[50%_20%]"
             />
           </div>
         </motion.div>
