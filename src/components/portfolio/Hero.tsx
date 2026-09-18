@@ -21,7 +21,10 @@ function useTypewriter(words: string[]) {
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
-    if (reduced) return;
+    if (reduced) {
+      setText(words[0]);
+      return;
+    }
     const word = words[index % words.length];
     const speed = !deleting && text === word ? 1400 : deleting ? 35 : 70;
     const t = setTimeout(() => {
@@ -42,7 +45,7 @@ function useTypewriter(words: string[]) {
     return () => clearTimeout(t);
   }, [text, deleting, index, words, reduced]);
 
-  return reduced ? words[0] : text;
+  return text;
 }
 
 export function Hero() {
