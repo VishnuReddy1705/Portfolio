@@ -19,8 +19,10 @@ try {
     assert.equal(await page.locator('main > section').count(), 9);
     assert.equal(await page.locator('.project-card').count(), 4);
     assert(await page.locator('.portrait-frame img').evaluate((img) => img.complete && img.naturalWidth > 0));
-    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${name}: horizontal overflow`);
     await page.screenshot({ path: `design-checks/${name}-hero.png` });
+    const dimensions = await page.evaluate(() => ({ width: innerWidth, scrollWidth: document.documentElement.scrollWidth }));
+    console.log(name, dimensions);
+    assert(dimensions.scrollWidth <= dimensions.width, `${name}: horizontal overflow`);
     await page.getByRole('button', { name: 'Explore Projects', exact: true }).click();
     await page.waitForFunction(() => Math.abs(document.getElementById('projects').getBoundingClientRect().top - 100) < 15);
     await page.waitForTimeout(800);

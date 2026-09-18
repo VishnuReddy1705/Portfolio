@@ -348,3 +348,8 @@ main > section:nth-child(even):not(#home) { background: #10182060; }
 }
 
 .portfolio-atmosphere { opacity: .35; }
+
+/* Keep offscreen reveal transforms and fixed atmospheric layers inside the viewport. */
+html { overflow-x: clip; }
+main { overflow-x: clip; }
+.portfolio-atmosphere { overflow: hidden; }
