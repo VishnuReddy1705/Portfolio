@@ -32,7 +32,7 @@ export function Navbar({ onOpenPalette }: { onOpenPalette: () => void }) {
       className="fixed top-4 left-1/2 z-[70] w-[min(94vw,52rem)] -translate-x-1/2"
     >
       <nav
-        className={`flex items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ${
+        className={`portfolio-nav flex items-center justify-between rounded-full px-5 py-2.5 transition-all duration-500 ${
           scrolled ? "glass-strong" : "border border-transparent"
         }`}
       >

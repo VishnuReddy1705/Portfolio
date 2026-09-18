@@ -64,6 +64,7 @@ export function TechStack() {
                   viewport={{ once: true, margin: "-60px" }}
                   transition={{ duration: 0.5, delay: i * 0.08 }}
                   onClick={() => setActiveId(c.id)}
+                  aria-pressed={isActive}
                   className={`group flex items-center gap-4 rounded-2xl p-4 text-left transition-all duration-300 ${
                     isActive ? "glass-strong glow-border" : "glass hover:-translate-y-0.5"
                   }`}
