@@ -110,7 +110,7 @@ export function ParticleField() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-0" aria-hidden>
+    <div className="portfolio-atmosphere pointer-events-none fixed inset-0 z-0" aria-hidden>
       {/* aurora blobs */}
       <div className="animate-aurora absolute -top-40 -left-40 h-[45rem] w-[45rem] rounded-full bg-electric/15 blur-[140px]" />
       <div

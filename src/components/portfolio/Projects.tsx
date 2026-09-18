@@ -1,5 +1,5 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "motion/react";
+import { motion } from "motion/react";
+import { SpatialVisual } from "./SpatialVisual";
 import { HeartPulse, Zap, Lock, MessageSquare, CheckCircle2 } from "lucide-react";
 import { SectionHeading } from "./SectionHeading";
 
@@ -60,24 +60,24 @@ const PROJECTS = [
 ];
 
 function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; index: number }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.92]);
-  const blur = useTransform(scrollYProgress, [0, 1], ["blur(0px)", "blur(6px)"]);
   const Icon = project.icon;
 
   return (
-    <div ref={ref} className="sticky top-0 flex min-h-screen items-center py-16" style={{ zIndex: index + 1 }}>
+    <div className="project-shell">
       <motion.article
-        style={{ scale, filter: blur }}
-        className="glass-strong relative mx-auto w-full max-w-5xl overflow-hidden rounded-3xl p-8 noise md:p-14"
+        initial={{ opacity: 0, y: 32 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.1 }}
+        transition={{ duration: 0.65, delay: (index % 2) * 0.1 }}
+        className="project-card glass-strong relative overflow-hidden rounded-3xl"
       >
+        <SpatialVisual variant={index} />
         <div className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${project.glow}`} />
-        <div className="relative z-10">
+        <div className="project-copy relative z-10">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className={`font-mono text-sm ${project.accent}`}>PROJECT {project.num}</p>
-              <h3 className="mt-2 font-display text-3xl leading-tight font-bold md:text-5xl">
+              <h3 className="mt-2 font-display text-2xl leading-tight font-bold md:text-3xl">
                 {project.title}
               </h3>
               <p className="mt-3 text-muted-foreground md:text-lg">{project.tagline}</p>
@@ -95,7 +95,7 @@ function ProjectCard({ project, index }: { project: (typeof PROJECTS)[number]; i
             ))}
           </div>
 
-          <div className="mt-10 grid gap-8 md:grid-cols-2">
+          <div className="mt-8 grid gap-7">
             <div>
               <p className="mb-3 font-mono text-xs tracking-widest text-muted-foreground uppercase">Features</p>
               <ul className="space-y-2.5">
@@ -130,7 +130,7 @@ export function Projects() {
       <div className="mx-auto max-w-6xl px-6 pt-32">
         <SectionHeading kicker="scene 05" title="Selected Work" />
       </div>
-      <div className="relative px-4 md:px-6">
+      <div className="projects-grid relative mx-auto grid max-w-6xl gap-6 px-6 md:grid-cols-2">
         {PROJECTS.map((p, i) => (
           <ProjectCard key={p.title} project={p} index={i} />
         ))}

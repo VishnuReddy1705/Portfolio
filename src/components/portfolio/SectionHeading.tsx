@@ -10,7 +10,7 @@ export function SectionHeading({
   className?: string;
 }) {
   return (
-    <div className={`mb-14 ${className}`}>
+    <div className={`section-heading mb-14 ${className}`}>
       <motion.p
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}

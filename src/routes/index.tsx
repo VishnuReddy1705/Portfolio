@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, MotionConfig, useReducedMotion } from "motion/react";
 
 import { Preloader } from "@/components/portfolio/Preloader";
 import { ParticleField } from "@/components/portfolio/ParticleField";
@@ -28,15 +28,19 @@ const KONAMI = [
 ];
 
 function Index() {
+  const reduced = useReducedMotion();
   const [booted, setBooted] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [overdrive, setOverdrive] = useState(false);
 
   // Lenis smooth scroll
   useEffect(() => {
+    if (reduced) return;
+    let disposed = false;
     let lenis: { raf: (t: number) => void; destroy: () => void } | null = null;
     let raf = 0;
     import("lenis").then(({ default: Lenis }) => {
+      if (disposed) return;
       lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
       const loop = (time: number) => {
         lenis?.raf(time);
@@ -45,10 +49,11 @@ function Index() {
       raf = requestAnimationFrame(loop);
     });
     return () => {
+      disposed = true;
       cancelAnimationFrame(raf);
       lenis?.destroy();
     };
-  }, []);
+  }, [reduced]);
 
   // keyboard: ⌘K palette + Konami code
   useEffect(() => {
@@ -83,6 +88,7 @@ function Index() {
   }, [booted]);
 
   return (
+    <MotionConfig reducedMotion="user">
     <div className="relative min-h-screen bg-background text-foreground">
       {!booted && <Preloader onDone={() => setBooted(true)} />}
 
@@ -135,5 +141,6 @@ function Index() {
         <Contact />
       </main>
     </div>
+    </MotionConfig>
   );
 }

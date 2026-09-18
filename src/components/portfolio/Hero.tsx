@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowDown } from "lucide-react";
-import portrait from "@/assets/portrait.png";
+import { SpatialVisual } from "./SpatialVisual";
 
 const ROLES = [
   "Full Stack Developer",
@@ -15,18 +15,21 @@ const ROLES = [
 ];
 
 function useTypewriter(words: string[]) {
+  const reduced = useReducedMotion();
   const [index, setIndex] = useState(0);
   const [text, setText] = useState("");
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (reduced) return;
     const word = words[index % words.length];
-    const speed = deleting ? 35 : 70;
+    const speed = !deleting && text === word ? 1400 : deleting ? 35 : 70;
     const t = setTimeout(() => {
-      if (!deleting) {
+      if (!deleting && text === word) {
+        setDeleting(true);
+      } else if (!deleting) {
         const next = word.slice(0, text.length + 1);
         setText(next);
-        if (next === word) setTimeout(() => setDeleting(true), 1400);
       } else {
         const next = word.slice(0, text.length - 1);
         setText(next);
@@ -37,18 +40,18 @@ function useTypewriter(words: string[]) {
       }
     }, speed);
     return () => clearTimeout(t);
-  }, [text, deleting, index, words]);
+  }, [text, deleting, index, words, reduced]);
 
-  return text;
+  return reduced ? words[0] : text;
 }
 
 export function Hero() {
   const role = useTypewriter(ROLES);
 
   return (
-    <section id="home" className="relative flex min-h-screen items-center overflow-hidden">
+    <section id="home" className="hero-section relative flex min-h-screen items-center overflow-hidden">
       <div className="grid-bg absolute inset-0 opacity-60 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_45%,black,transparent)]" />
-      <div className="relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-14 px-6 pt-28 pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:pt-20">
+      <div className="hero-layout relative z-10 mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-14 px-6 pt-28 pb-20 lg:grid-cols-[1.15fr_0.85fr] lg:pt-20">
         <div>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -64,7 +67,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display text-5xl leading-[1.02] font-bold tracking-tight md:text-7xl"
+            className="hero-name font-display text-5xl leading-[1.02] font-bold tracking-tight md:text-7xl"
           >
             OM VISHNU
             <br />
@@ -113,40 +116,13 @@ export function Hero() {
           </motion.div>
         </div>
 
-        {/* Portrait with glowing rings */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.85, filter: "blur(20px)" }}
-          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ duration: 1.2, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mx-auto w-72 md:w-96"
+          initial={{ opacity: 0, y: 28 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.35 }}
+          className="hero-artwork"
         >
-          <div
-            className="animate-spin-slow absolute -inset-6 rounded-full opacity-70"
-            style={{
-              background:
-                "conic-gradient(from 0deg, transparent, var(--neon), transparent 30%, transparent 60%, var(--violet), transparent 90%)",
-              WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 2px))",
-              mask: "radial-gradient(farthest-side, transparent calc(100% - 3px), black calc(100% - 2px))",
-            }}
-          />
-          <div
-            className="animate-spin-slow-rev absolute -inset-12 rounded-full opacity-40"
-            style={{
-              background:
-                "conic-gradient(from 180deg, transparent, var(--electric), transparent 40%)",
-              WebkitMask: "radial-gradient(farthest-side, transparent calc(100% - 2px), black calc(100% - 1px))",
-              mask: "radial-gradient(farthest-side, transparent calc(100% - 2px), black calc(100% - 1px))",
-            }}
-          />
-          <div className="animate-float relative overflow-hidden rounded-full border border-border shadow-[0_0_80px_-12px_var(--electric)]">
-            <img
-              src={portrait}
-              alt="Om Vishnu Vardhan Reddy P — futuristic developer portrait"
-              width={832}
-              height={1024}
-              className="aspect-square w-full object-cover object-[50%_20%]"
-            />
-          </div>
+          <SpatialVisual portraitMode />
         </motion.div>
       </div>
 
